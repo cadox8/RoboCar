@@ -3,22 +3,31 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 
-const io = require('socket.io')(http);
-const dweetClient = require('node-dweetio');
-
-const dweetio = new dweetClient();
-const dweetThing = 'node-monitor';
-
 let port = 80;
 
 const indexRouter = require('./routes/index');
+
+global.sensorData = [];
+
+const board = require("./server.js");
+const helpers = require("./helpers.js");
 
 const app = express();
 
 app.set('port', port);
 
 const server = http.createServer(app);
-server.listen(port);
+server.listen(port, () => {
+  console.log('Server running on http://localhost:80');
+});
+
+global.io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log("Connected client");
+
+  global.helpers.sendData();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,19 +39,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 
-io.on('connection', (socket) => {
-  console.log('Connection has been established with browser.');
-  socket.on('disconnect', () => {
-    console.log('Browser client disconnected from the connection.');
-  });
-});
-
-dweetio.listen_for(dweetThing, (dweet) => {
-  const data = {
-    sensorData: dweet.content
-  };
-  io.emit('sensor-data', data);
-});
 
 app.use(function(req, res, next) {
   next(createError(404));
