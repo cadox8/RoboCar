@@ -1,0 +1,80 @@
+extends layout
+
+block content
+  h1
+    center Mando Radiocontrol
+  div(align='center')
+    table.egt(border='1')
+      tbody
+        tr
+          th
+            center Izquierda
+          th
+            center Modos
+          th
+            center Derecha
+        tr
+          td
+            center
+              p.red#left Alante
+          td
+            center LED
+          td
+            center
+              p.red#right Alante
+        tr
+          td
+            center
+              a(onclick='f()', href='#')
+                img(src='/images/circulo.jpg', width='40', height='40')
+          td
+              center MANUAL
+          td
+            center
+              a(onclick='g()', href='#')
+                img(src='/images/circulo.jpg', width='40', height='40')
+        tr
+          td
+            center Atras
+          td
+            center AUTOMATICO
+          td
+            center Atras
+        tr
+          td
+            p#t Temperatura
+          td
+            p#k km/h
+          td
+            p#l Luminosidad
+  
+  script.
+    var io = io();
+    io.on('data', (sensorData) => {
+      document.getElementById('l').innerHTML = "<center>Luz: " + sensorData[0] + "</center>";
+      document.getElementById('t').innerHTML = "<center>Temperatura: " + sensorData[1] + "ºC</center>";
+      document.getElementById('k').innerHTML = "<center>Proximidad: " + sensorData[4] + "cm</center>";
+
+      if (sensorData[2] === 0) {
+        document.getElementById('left').classList.remove('red');
+        document.getElementById('left').classList.add('green');
+      } else {
+        document.getElementById('left').classList.add('red');
+        document.getElementById('left').classList.remove('green');
+      }
+      if (sensorData[3] === 0) {
+        document.getElementById('right').classList.remove('red');
+        document.getElementById('right').classList.add('green');
+      } else {
+        document.getElementById('right').classList.add('red');
+        document.getElementById('right').classList.remove('green');
+      }
+    });
+    
+    function f() {
+      io.emit('stop', 0);
+    }
+
+    function g() {
+      io.emit('stop2', 0);
+    }

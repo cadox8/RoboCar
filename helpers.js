@@ -1,7 +1,7 @@
 const e = global.helpers = {
-  sendData: () => {
+  sendData: (io, data) => {
     setInterval(() => {
-          global.io.emit('data', global.sensorData);
+          io.emit('data', data);
     }, 1000);
   }
 };

@@ -7,10 +7,6 @@ let port = 80;
 
 const indexRouter = require('./routes/index');
 
-global.sensorData = [];
-
-const board = require("./server.js");
-const helpers = require("./helpers.js");
 
 const app = express();
 
@@ -22,12 +18,19 @@ server.listen(port, () => {
 });
 
 global.io = require('socket.io')(server);
+global.socket = null;
+global.sensorData = [];
 
 io.on('connection', (socket) => {
   console.log("Connected client");
+  global.socket = socket;
 
-  global.helpers.sendData();
+  global.helpers.sendData(io, sensorData);
 });
+
+const board = require("./server.js");
+const helpers = require("./helpers.js");
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
