@@ -1,4 +1,4 @@
-module.exports = (five, board, music, light, ...engines) => {
+module.exports = (five, board, music, light, engineLeft, engineRight) => {
 
     // ------------------------------
 
@@ -14,11 +14,12 @@ module.exports = (five, board, music, light, ...engines) => {
         const {centimeters} = proximitySensor;
         global.sensorData[4] = centimeters;
         if (centimeters <= 35) {
-            engines[0].low();
-            engines[1].high();
+            engineLeft.stop();
+            engineRight.stop();
             music.tone(1047, 500);
         } else {
             music.stop();
+            music.off();
         }
     });
 
@@ -34,5 +35,7 @@ module.exports = (five, board, music, light, ...engines) => {
     });
 
     // Temperature Sensor
-    temperature.on("data", () => global.sensorData[1] = temperature.toCelsius);
+    temperature.on("data", function() {
+        global.sensorData[1] = this.C;
+    });
 };
