@@ -7,7 +7,8 @@ const BLINK = ["11111111", "11111111", "11111111", "11111111", "11111111", "1111
 
 boards.on('ready', () => {
     let EnginesBoard = require('./boards/EnginesBoard')(five, boards.byId("A"));
-    let SensorsBoard = require('./boards/SensorsBoard')(five, boards.byId("B"), EnginesBoard);
+    let LedsBoard = require('./boards/LedsBoard')(five, boards.byId("B"));
+    let SensorsBoard = require('./boards/SensorsBoard')(five, boards.byId("C"), LedsBoard[0], LedsBoard[1], EnginesBoard);
 
    /* // Primary Board
 
