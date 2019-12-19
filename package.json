@@ -5,7 +5,6 @@
   "author": "cadox8",
   "description": "A program which controls 4 Arduino UNO boards at the same time to run a car",
   "homepage": "https://cadox8.github.io",
-  "license": "https://github.com/cadox8/RoboCar/blob/master/LICENSE",
   "repository": "https://github.com/cadox8/RoboCar",
   "readme": "https://github.com/cadox8/RoboCar/blob/master/README",
   "main": "app.js",
@@ -19,6 +18,7 @@
   },
   "devDependencies": {
     "johnny-five": "^1.3.1",
+    "raspivid-stream": "^0.2.1",
     "socket.io": "^2.3.0"
   }
 }

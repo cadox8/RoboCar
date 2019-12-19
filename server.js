@@ -9,6 +9,7 @@ boards.on('ready', () => {
     let EnginesBoard = require('./boards/EnginesBoard')(five, boards.byId("A"));
     let LedsBoard = require('./boards/LedsBoard')(five, boards.byId("B"));
     let SensorsBoard = require('./boards/SensorsBoard')(five, boards.byId("C"), LedsBoard[0], LedsBoard[1], EnginesBoard);
+    let PiBoard = require('./boards/PiBoard')(five);
 
    /* // Primary Board
 

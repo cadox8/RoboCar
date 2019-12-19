@@ -47,9 +47,19 @@ block content
             p#k km/h
           td
             p#l Luminosidad
-  
+
+    img#frame(src='', style='width:680px; height:320px')
+    div#logger
+
+
   script.
     var io = io();
+
+    var img = document.getElementById("frame");
+    io.on('stream', function (data) {
+      img.src = data;
+    });
+
     io.on('data', (sensorData) => {
       document.getElementById('l').innerHTML = "<center>Luz: " + sensorData[0] + "</center>";
       document.getElementById('t').innerHTML = "<center>Temperatura: " + sensorData[1] + "ºC</center>";
