@@ -48,17 +48,9 @@ block content
           td
             p#l Luminosidad
 
-    img#frame(src='', style='width:680px; height:320px')
-    div#logger
-
 
   script.
     var io = io();
-
-    var img = document.getElementById("frame");
-    io.on('stream', function (data) {
-      img.src = data;
-    });
 
     io.on('data', (sensorData) => {
       document.getElementById('l').innerHTML = "<center>Luz: " + sensorData[0] + "</center>";
@@ -82,9 +74,9 @@ block content
     });
     
     function f() {
-      io.emit('stop', 0);
+      io.emit('stop', -1);
     }
 
     function g() {
-      io.emit('stop2', 0);
+      io.emit('stop2', -1);
     }

@@ -1,26 +1,27 @@
-module.exports = (five, board) => {
+// Max Draws
+const HEARTH = ["01100110", "10011001", "10000001", "10000001", "01000010", "00100100", "00011000", "00000000"];
+const BLINK = ["11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111"];
 
-    // Max Draws
-    const HEARTH = ["01100110", "10011001", "10000001", "10000001", "01000010", "00100100", "00011000", "00000000"];
-    const BLINK = ["11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111"];
+// ------------------------------
 
-    // ------------------------------
+// Digital Pins
+let pin;
+let max;
+let rgb;
+let music;
+
+function LedsBoard(five, board) {
 
     // Digital Pins
-    let pin = new five.Led({board: board, pin: 13});
-    let max = new five.Led.Matrix({board: board, pins: {data: 2, clock: 9, cs: 4}, devices: 2});
-    let rgb = new five.Led.RGB({board: board, pins: {red: 6, green: 3, blue: 5}});
-    let music = new five.Piezo({board: board, pin: 7});
+    pin = new five.Led({board: board, pin: 13});
+    max = new five.Led.Matrix({board: board, pins: {data: 2, clock: 9, cs: 4}, devices: 2});
+    rgb = new five.Led.RGB({board: board, pins: {red: 6, green: 3, blue: 5}});
+    music = new five.Piezo({board: board, pin: 7});
     // ------------------------------
 
     // Max LED
     max.draw(1, HEARTH);
 
-    function blink() {
-        max.draw(0, BLINK);
-        setTimeout(blink, 1000);
-        max.clear(0);
-    }
     blink();
 
     // RGB Led
@@ -35,6 +36,28 @@ module.exports = (five, board) => {
         rgb.color(rainbow[index++]);
         if (index === rainbow.length) index = 0;
     });
+};
 
-    return [music, pin];
+// Blinks screen
+function blink() {
+    max.draw(0, BLINK);
+    setTimeout(blink, 1000);
+    max.clear(0);
+}
+
+module.exports.playMusic = (tone, duration) => {
+    stopMusic();
+    music.tone(tone, duration);
+};
+
+module.exports.stopMusic = () => {
+    music.stop();
+};
+
+module.exports.lights = (on) => {
+    if (on) {
+        pin.on();
+    } else {
+        pin.off();
+    }
 };

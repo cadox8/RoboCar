@@ -1,13 +1,17 @@
-module.exports = (five, board) => {
+// Engines
+let motorLeft;
+let motorRight;
 
-    // Digital Pins
-    let pin = new five.Led({board: board, pin: 3});
-    let pin2 = new five.Led({board: board, pin: 4});
+// Digital Pins
+let pin;
+let pin2;
 
-    let motorLeft = new five.Motor({board: board, pin: 12}); //new five.Motor([12, 12]) - Not working
-    let motorRight = new five.Motor({board: board, pin: 11}); //new five.Motor([11, 11]) - Not working
+function EnginesBoard(five, board) {
+    motorLeft = new five.Motor({board: board, pin: 12});
+    motorRight = new five.Motor({board: board, pin: 11});
 
-    // ------------------------------
+    pin = new five.Led({board: board, pin: 3});
+    pin2 = new five.Led({board: board, pin: 4});
 
     motorLeft.start();
     motorRight.start();
@@ -15,32 +19,43 @@ module.exports = (five, board) => {
     pin.on();
     pin2.on();
 
-    setInterval(() => {
-        if (global.socket == null) return;
-        global.sensorData[2] = motorLeft.isOn;
-        global.sensorData[3] = motorRight.isOn;
+    global.sensorData[2] = motorLeft.isOn;
+    global.sensorData[3] = motorRight.isOn;
 
-        global.socket.on('stop', (data) => {
-            if (motorLeft.isOn) {
-                motorLeft.stop();
-                pin.off()
-            } else {
-                motorLeft.start();
-                pin.on();
-            }
-            global.helpers.sendData(global.io, global.sensorData)
-        });
-        global.socket.on('stop2', (data) => {
-            if (motorRight.isOn) {
-                motorRight.stop();
-                pin2.off();
-            } else {
-                motorRight.start();
-                pin2.on();
-            }
-            global.helpers.sendData(global.io, global.sensorData)
-        });
-    }, 1000);
+    // Checks if Client change motor status
+    global.socket.on('stop', () => {
+        changeStatus(motorLeft, pin, !motorLeft.isOn);
+    });
+    global.socket.on('stop2', () => {
+        changeStatus(motorRight, pin2, !motorLeft.isOn);
+    });
+};
 
-    return [motorLeft, motorRight];
+module.exports.startEngine = function(engine) {
+    if (engine === 0) {
+        changeStatus(motorLeft, pin, true);
+    } else {
+        changeStatus(motorRight, pin2, true );
+    }
+};
+
+module.exports.stopEngine = function(engine) {
+    if (engine === 0) {
+        changeStatus(motorLeft, pin, false);
+    } else {
+        changeStatus(motorRight, pin2, false);
+    }
+};
+
+let changeStatus = function(engine, pin, active) {
+    if (!active) {
+        engine.stop();
+        pin.off();
+    } else {
+        engine.start();
+        pin.on();
+    }
+    global.sensorData[2] = motorLeft.isOn;
+    global.sensorData[3] = motorRight.isOn;
+    global.helpers.sendData(global.io, global.sensorData)
 };

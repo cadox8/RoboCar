@@ -1,11 +1,12 @@
-module.exports = (five, board, music, light, engineLeft, engineRight) => {
+// Analog Pins
+let proximitySensor;
+let lightSensor;
+let temperature;
 
-    // ------------------------------
-
-    // Analog Pins
-    let proximitySensor = new five.Proximity({board: board, controller: "HCSR04", pin: "A5"});
-    let lightSensor = new five.Sensor({board: board, pin: 'A0', threshold: 4});
-    let temperature = new five.Thermometer({board: board, pin: "A2"});
+function SensorsBoard(five, board, leds, engines) {
+    proximitySensor = new five.Proximity({board: board, controller: "HCSR04", pin: "A5"});
+    lightSensor = new five.Sensor({board: board, pin: 'A0', threshold: 4});
+    temperature = new five.Thermometer({board: board, pin: "A2"});
 
     // ------------------------------
 
@@ -14,12 +15,11 @@ module.exports = (five, board, music, light, engineLeft, engineRight) => {
         const {centimeters} = proximitySensor;
         global.sensorData[4] = centimeters;
         if (centimeters <= 35) {
-            engineLeft.stop();
-            engineRight.stop();
-            music.tone(1047, 500);
+            engines.stopEngine(0);
+            engines.stopEngine(1);
+            leds.playMusic(1047, 500);
         } else {
-            music.stop();
-            music.off();
+            leds.stopMusic();
         }
     });
 
@@ -28,9 +28,9 @@ module.exports = (five, board, music, light, engineLeft, engineRight) => {
         global.sensorData[0] = value;
 
         if (value < 300) {
-            light.on();
+            leds.lights(true);
         } else {
-            light.off();
+            leds.lights(false);
         }
     });
 

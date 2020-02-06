@@ -1,0 +1,52 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+}
+
+a {
+  color: #00B7FF;
+  cursor: pointer;
+}
+
+table {
+  text-decoration-color: white;
+  border: white 5px solid;
+  border-collapse: separate;
+  align-content: center;
+}
+tr {
+  border-left: white 7px solid;
+  align-content: center;
+}
+
+th {
+  text-decoration-color: white;
+  width: 250px;
+  height: 40px;
+  align-content: center;
+}
+
+td {
+  text-decoration-color: white;
+  width: 250px;
+  height: 40px;
+  align-content: center;
+}
+
+div {
+  color: white;
+  font-family: Calibri, serif;
+}
+
+p {
+  align: center;
+}
+
+.green {
+  color: greenyellow;
+}
+
+.red {
+  color: red;
+}
