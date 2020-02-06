@@ -25,13 +25,13 @@ block content
         tr
           td
             center
-              a(onclick='f()', href='#')
+              a(onclick='update(0)', href='#')
                 img(src='/images/circulo.jpg', width='40', height='40')
           td
               center MANUAL
           td
             center
-              a(onclick='g()', href='#')
+              a(onclick='update(1)', href='#')
                 img(src='/images/circulo.jpg', width='40', height='40')
         tr
           td
@@ -52,19 +52,19 @@ block content
   script.
     var io = io();
 
-    io.on('data', (sensorData) => {
-      document.getElementById('l').innerHTML = "<center>Luz: " + sensorData[0] + "</center>";
-      document.getElementById('t').innerHTML = "<center>Temperatura: " + sensorData[1] + "ºC</center>";
-      document.getElementById('k').innerHTML = "<center>Proximidad: " + sensorData[4] + "cm</center>";
+    io.on('data', (data) => {
+      document.getElementById('l').innerHTML = "<center>Luz: " + data.light + "</center>";
+      document.getElementById('t').innerHTML = "<center>Temperatura: " + data.temperature + "ºC</center>";
+      document.getElementById('k').innerHTML = "<center>Proximidad: " + data.proximity + "cm</center>";
 
-      if (sensorData[2]) {
+      if (data.leftEngine) {
         document.getElementById('left').classList.remove('red');
         document.getElementById('left').classList.add('green');
       } else {
         document.getElementById('left').classList.add('red');
         document.getElementById('left').classList.remove('green');
       }
-      if (sensorData[3]) {
+      if (data.rightEngine) {
         document.getElementById('right').classList.remove('red');
         document.getElementById('right').classList.add('green');
       } else {
@@ -73,10 +73,6 @@ block content
       }
     });
     
-    function f() {
-      io.emit('stop', -1);
-    }
-
-    function g() {
-      io.emit('stop2', -1);
+    function update(engine) {
+      io.emit('update', engine);
     }

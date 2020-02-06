@@ -19,17 +19,27 @@ server.listen(port, () => {
 
 global.io = require('socket.io')(server);
 global.socket = null;
-global.sensorData = [];
+global.data = {
+  leftEngine: false,
+  rightEngine: false,
+  light: 0,
+  temperature: 0,
+  proximity: 0
+};
 
 io.on('connection', (socket) => {
   console.log("Connected client");
   global.socket = socket;
 
-  global.helpers.sendData(io, sensorData);
+  global.helpers.sendData(data);
 });
 
-const board = require("./server.js");
-const helpers = require("./helpers.js");
+const board = require("./server");
+const helpers = require("./helpers");
+
+socket.on('update', (engine) => {
+  board.engines.changeStatus(engine);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

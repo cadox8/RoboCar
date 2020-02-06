@@ -19,16 +19,8 @@ function EnginesBoard(five, board) {
     pin.on();
     pin2.on();
 
-    global.sensorData[2] = motorLeft.isOn;
-    global.sensorData[3] = motorRight.isOn;
-
-    // Checks if Client change motor status
-    global.socket.on('stop', () => {
-        changeStatus(motorLeft, pin, !motorLeft.isOn);
-    });
-    global.socket.on('stop2', () => {
-        changeStatus(motorRight, pin2, !motorLeft.isOn);
-    });
+    global.data.leftEngine = motorLeft.isOn;
+    global.data.rightEngine = motorRight.isOn;
 };
 
 module.exports.startEngine = function(engine) {
@@ -47,6 +39,14 @@ module.exports.stopEngine = function(engine) {
     }
 };
 
+module.exports.changeStatus = function(engine) {
+  if (engine === 0) {
+      changeStatus(motorLeft, pin, !motorLeft.isOn);
+  } else {
+      changeStatus(motorRight, pin2, !motorRight.isOn);
+  }
+};
+
 let changeStatus = function(engine, pin, active) {
     if (!active) {
         engine.stop();
@@ -55,7 +55,7 @@ let changeStatus = function(engine, pin, active) {
         engine.start();
         pin.on();
     }
-    global.sensorData[2] = motorLeft.isOn;
-    global.sensorData[3] = motorRight.isOn;
-    global.helpers.sendData(global.io, global.sensorData)
+    global.data.leftEngine = motorLeft.isOn;
+    global.data.rightEngine = motorRight.isOn;
+    global.helpers.sendData(global.data)
 };

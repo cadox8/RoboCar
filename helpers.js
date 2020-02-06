@@ -1,7 +1,7 @@
 const e = global.helpers = {
-  sendData: (io, data) => {
+  sendData: (data) => {
     setInterval(() => {
-          io.emit('data', data);
+          global.socket.emit('data', data);
     }, 1000);
   }
 };

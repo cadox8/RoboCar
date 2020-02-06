@@ -13,7 +13,7 @@ function SensorsBoard(five, board, leds, engines) {
     // Proximity Sensor
     proximitySensor.on("change", () => {
         const {centimeters} = proximitySensor;
-        global.sensorData[4] = centimeters;
+        global.data.proximity = centimeters;
         if (centimeters <= 35) {
             engines.stopEngine(0);
             engines.stopEngine(1);
@@ -25,7 +25,7 @@ function SensorsBoard(five, board, leds, engines) {
 
     // Light Sensor
     lightSensor.on('change', (value) => {
-        global.sensorData[0] = value;
+        global.data.light = value;
 
         if (value < 300) {
             leds.lights(true);
@@ -36,6 +36,6 @@ function SensorsBoard(five, board, leds, engines) {
 
     // Temperature Sensor
     temperature.on("data", function() {
-        global.sensorData[1] = this.C;
+        global.data.temperature = this.C;
     });
 };
