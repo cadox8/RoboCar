@@ -23,7 +23,7 @@ function EnginesBoard(five, board) {
     global.data.rightEngine = motorRight.isOn;
 };
 
-module.exports.startEngine = function(engine) {
+EnginesBoard.prototype.startEngine = function(engine) {
     if (engine === 0) {
         changeStatus(motorLeft, pin, true);
     } else {
@@ -31,7 +31,7 @@ module.exports.startEngine = function(engine) {
     }
 };
 
-module.exports.stopEngine = function(engine) {
+EnginesBoard.prototype.stopEngine = function(engine) {
     if (engine === 0) {
         changeStatus(motorLeft, pin, false);
     } else {
@@ -39,7 +39,7 @@ module.exports.stopEngine = function(engine) {
     }
 };
 
-module.exports.changeStatus = function(engine) {
+EnginesBoard.prototype.changeStatus = function(engine) {
   if (engine === 0) {
       changeStatus(motorLeft, pin, !motorLeft.isOn);
   } else {
@@ -59,3 +59,5 @@ let changeStatus = function(engine, pin, active) {
     global.data.rightEngine = motorRight.isOn;
     global.helpers.sendData(global.data)
 };
+
+module.exports = EnginesBoard;

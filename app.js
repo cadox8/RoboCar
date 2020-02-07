@@ -37,9 +37,11 @@ io.on('connection', (socket) => {
 const board = require("./server");
 const helpers = require("./helpers");
 
-socket.on('update', (engine) => {
-  board.engines.changeStatus(engine);
-});
+if (socket != null) {
+  socket.on('update', (engine) => {
+    board.engines.changeStatus(engine);
+  });
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -25,15 +25,16 @@ function LedsBoard(five, board) {
     blink();
 
     // RGB Led
-    rgb.on();
+
     rgb.intensity(100);
     rgb.color("FF00FF");
+    rgb.off();
 
     let index = 0;
     const rainbow = ["FF0000", "FF7F00", "FFFF00", "00FF00", "0000FF", "4B0082", "8F00FF"];
 
     board.loop(1000, () => {
-        rgb.color(rainbow[index++]);
+        if (rgb.isOn) rgb.color(rainbow[index++]);
         if (index === rainbow.length) index = 0;
     });
 };
@@ -45,19 +46,28 @@ function blink() {
     max.clear(0);
 }
 
-module.exports.playMusic = (tone, duration) => {
-    stopMusic();
-    music.tone(tone, duration);
+LedsBoard.prototype.playMusic = (tone, duration) => {
+    //music.tone(tone, duration);
 };
 
-module.exports.stopMusic = () => {
+LedsBoard.prototype.stopMusic = function()  {
     music.stop();
 };
 
-module.exports.lights = (on) => {
+LedsBoard.prototype.lights = (on) => {
     if (on) {
         pin.on();
     } else {
         pin.off();
     }
 };
+
+LedsBoard.prototype.rgbLight = (on) => {
+    if (on) {
+        rgb.on();
+    } else {
+        rgb.off();
+    }
+};
+
+module.exports = LedsBoard;

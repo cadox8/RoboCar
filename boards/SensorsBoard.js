@@ -18,8 +18,9 @@ function SensorsBoard(five, board, leds, engines) {
             engines.stopEngine(0);
             engines.stopEngine(1);
             leds.playMusic(1047, 500);
+            leds.rgbLight(true);
         } else {
-            leds.stopMusic();
+            leds.rgbLight(false);
         }
     });
 
@@ -31,7 +32,7 @@ function SensorsBoard(five, board, leds, engines) {
             leds.lights(true);
         } else {
             leds.lights(false);
-        }
+    }
     });
 
     // Temperature Sensor
@@ -39,3 +40,5 @@ function SensorsBoard(five, board, leds, engines) {
         global.data.temperature = this.C;
     });
 };
+
+module.exports = SensorsBoard;
