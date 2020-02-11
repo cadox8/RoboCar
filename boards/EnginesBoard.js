@@ -21,6 +21,8 @@ function EnginesBoard(five, board) {
 
     global.data.leftEngine = motorLeft.isOn;
     global.data.rightEngine = motorRight.isOn;
+
+    
 };
 
 EnginesBoard.prototype.startEngine = function(engine) {

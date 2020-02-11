@@ -25,7 +25,6 @@ function LedsBoard(five, board) {
     blink();
 
     // RGB Led
-
     rgb.intensity(100);
     rgb.color("FF00FF");
     rgb.off();
