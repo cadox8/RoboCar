@@ -1,3 +1,4 @@
+/*
 // Max Draws
 const HEARTH = ["01100110", "10011001", "10000001", "10000001", "01000010", "00100100", "00011000", "00000000"];
 const BLINK = ["11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111", "11111111"];
@@ -69,4 +70,4 @@ LedsBoard.prototype.rgbLight = (on) => {
     }
 };
 
-module.exports = LedsBoard;
+module.exports = LedsBoard;*/
