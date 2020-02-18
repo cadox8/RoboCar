@@ -22,7 +22,9 @@ function EnginesBoard(five, board) {
     global.data.leftEngine = motorLeft.isOn;
     global.data.rightEngine = motorRight.isOn;
 
-    
+    board.loop(1000, () => {
+        global.helpers.updateData(this);
+    });
 };
 
 EnginesBoard.prototype.startEngine = function(engine) {

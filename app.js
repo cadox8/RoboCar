@@ -34,14 +34,8 @@ io.on('connection', (socket) => {
   global.helpers.sendData(data);
 });
 
-const board = require("./server");
+const serverR = require("./ServerR");
 const helpers = require("./helpers");
-
-if (socket != null) {
-  socket.on('update', (engine) => {
-    board.engines.changeStatus(engine);
-  });
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
